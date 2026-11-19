@@ -2,6 +2,8 @@ package com.proj.repository;
 
 import com.proj.database.DatabaseConfig;
 
+import com.proj.model.UserModel;
+
 import java.sql.*;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -20,8 +22,8 @@ public class UserRepository {
         }
     }
 
-    public ArrayList<HashMap<String,String>> fetchAll() throws SQLException {
-        ArrayList<HashMap<String,String>> users = new ArrayList<HashMap<String,String>>();
+    public ArrayList<UserModel> fetchAll() throws SQLException {
+        ArrayList<UserModel> users = new ArrayList<UserModel>();
         try(
             Connection conn = this.dbConfig.getConn();
             Statement stmt = conn.createStatement();
@@ -29,10 +31,10 @@ public class UserRepository {
             String sql = "select * from tb_user;";
             ResultSet results = stmt.executeQuery(sql);
             while(results.next()){
-                HashMap<String,String> userData = new HashMap<>();
-                userData.put("nome",results.getString("nome"));
-                userData.put("email",results.getString("email"));
-                users.add(userData);
+                UserModel user = new UserModel();
+                user.setNome(results.getString("nome"));
+                user.setEmail(results.getString("email"));
+                users.add(user);
             }
         }catch(SQLException e){
             e.printStackTrace();

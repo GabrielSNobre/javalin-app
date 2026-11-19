@@ -1,7 +1,9 @@
 package com.proj.controller;
 
+import com.proj.model.UserModel;
 import com.proj.repository.UserRepository;
 import com.proj.database.DatabaseConfig;
+
 import io.javalin.config.JavalinConfig;
 
 import java.sql.*;
@@ -27,8 +29,8 @@ public class UserController {
         return userData;
     }
 
-    public ArrayList<HashMap<String,String>> getAllUsers() throws SQLException{
-        ArrayList<HashMap<String,String>> userData = this.repository.fetchAll();
+    public ArrayList<UserModel> getAllUsers() throws SQLException{
+        ArrayList<UserModel> userData = this.repository.fetchAll();
         System.out.println("Resultado: " + userData.toString());
         return userData;
     }
