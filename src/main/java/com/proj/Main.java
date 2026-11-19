@@ -13,31 +13,24 @@ import io.javalin.http.staticfiles.Location;
 
 public class Main{
     public static void main(String[] args) throws SQLException {
+
         DatabaseConfig dbConf = new DatabaseConfig();
         UserRepository userRepository = new UserRepository(dbConf);
         UserController userController = new UserController(userRepository);
         UserRoutes userRoutes = new UserRoutes(userController);
+
         try{
-            Connection conn = dbConf.getConn();
-            dbConf.initDB();
-            userController.getUserById(2);
-            if(conn != null){
-                System.out.println("Conexão Estabelecida");
-            } else {
-                System.out.println("Erro de Conexão");
-            }
+            var app = Javalin.create(
+                config -> {
+                    // Definição de Arquivos do Front
+                    config.staticFiles.add("src/main/public",Location.EXTERNAL);
+
+                    // Construido Roteamento Externo
+                    userRoutes.getUsersAll(config.routes);
+            });
+            app.start(7070);
         } catch (SQLException e){
             e.printStackTrace();
         }
-
-        var app = Javalin.create(
-            config -> {
-                // Definição de Arquivos do Front
-                config.staticFiles.add("src/main/public",Location.EXTERNAL);
-
-                // Construido Roteamento Externo
-                userRoutes.getUsersAll(config.routes);
-        });
-        app.start(7070);
     }
 }

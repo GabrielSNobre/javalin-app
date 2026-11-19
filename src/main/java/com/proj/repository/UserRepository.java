@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository {
-    private DatabaseConfig dbConfig;
+    private final DatabaseConfig dbConfig;
     private Connection conn;
-
-    public UserRepository(){}
 
     public UserRepository(DatabaseConfig dbConfig) throws SQLException{
         this.dbConfig = dbConfig;
@@ -59,8 +57,6 @@ public class UserRepository {
         } catch(SQLException e){
             System.out.printf("Erro ao processar query: '%s'\nStackTrace: %s",sql,e.toString());
         }
-            stmtQuery.close();
-            conn.close();
             return data;
     }
 }

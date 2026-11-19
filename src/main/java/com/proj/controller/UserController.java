@@ -13,11 +13,8 @@ import java.util.Locale.Category;
 import java.util.HashMap;
 
 public class UserController {
-    private UserRepository repository;
+    private final UserRepository repository;
 
-    public UserController(){
-
-    }
     public UserController(UserRepository repository){
         this.repository = repository ;
     }

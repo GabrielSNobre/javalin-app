@@ -1,11 +1,15 @@
 package com.proj.database;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.sql.*;
 
 public class SQLRunner {
     public void execSql(String schemaPath, Connection conn) throws Exception{
+        File dbFile = new File("src/main/database/app.db");
+        if(dbFile.exists()){ System.out.println("Banco Encontrado"); return; }
+
         try(BufferedReader bf = new BufferedReader(new FileReader(schemaPath));
             Statement stmt = conn.createStatement();
         ){

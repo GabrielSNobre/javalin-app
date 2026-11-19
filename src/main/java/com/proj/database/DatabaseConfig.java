@@ -22,13 +22,16 @@ public class DatabaseConfig {
 
     public void initDB(){
         SQLRunner runner = new SQLRunner();
-        try(var conn = getConn()){
-            runner.execSql(this.schemaPath, getConn());
+        var conn = getConn();
+        try(conn){
+            runner.execSql(this.schemaPath, conn);
             if(conn != null){
                 var meta = conn.getMetaData();
             }
         }catch(Exception e){
             e.printStackTrace();
+        }finally {
+            conn.close();
         }
     }
 }
