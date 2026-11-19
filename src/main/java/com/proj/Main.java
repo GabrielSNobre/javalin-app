@@ -25,7 +25,7 @@ public class Main{
                 config.staticFiles.add("src/main/public",Location.EXTERNAL);
 
                 // Construido Roteamento Externo
-                userRoutes.getUsersAll(config.routes);
+                userRoutes.register(config.routes);
         });
         app.start(7070);
     }

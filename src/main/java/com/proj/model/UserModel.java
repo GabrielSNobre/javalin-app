@@ -28,7 +28,7 @@ public class UserModel {
     }
 
     public String toString(){
-        return "{nome: " + this.nome + ", email: "+ this.email+"}" ;
+        return "{\"nome\": \"" + this.nome + "\", \"email\": \""+ this.email+"\"} " ;
     }
 
 }

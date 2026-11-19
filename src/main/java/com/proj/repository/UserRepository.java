@@ -43,22 +43,36 @@ public class UserRepository {
         return users;
     }
 
-    public HashMap<String,String> fetchUserById(int id) throws SQLException{
+    public UserModel fetchUserById(int id) throws SQLException{
         PreparedStatement stmtQuery = null;
         String sql = "Select id, nome, email from tb_user where id = ?";
-        ResultSet rsUserData = null;
-        HashMap<String,String> data = new HashMap<>();
+        ResultSet results = null;
+        UserModel user = new UserModel();
         try{
             stmtQuery = this.conn.prepareStatement(sql);
             stmtQuery.setInt(1, id);
-            rsUserData = stmtQuery.executeQuery();
-            while(rsUserData.next()){
-                data.put("nome",rsUserData.getString("nome"));
-                data.put("email",rsUserData.getString("email"));
+            results = stmtQuery.executeQuery();
+            while(results.next()){
+                user.setNome(results.getString("nome"));
+                user.setEmail(results.getString("email"));
             }
         } catch(SQLException e){
             System.out.printf("Erro ao processar query: '%s'\nStackTrace: %s",sql,e.toString());
         }
-            return data;
+            return user;
+    }
+
+    public void insertUser(UserModel user) throws SQLException{
+        String sql = "insert into tb_user(nome,email) values(?,?)";
+        try(
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+        ){
+            stmt.setString(1, user.getNome());
+            stmt.setString(2, user.getEmail());
+            stmt.execute(sql);
+            System.out.println("Registro Criado");
+        } catch(SQLException e){
+            System.out.printf("Erro ao processar query: '%s'\nStackTrace: %s",sql,e.toString());
+        }
     }
 }

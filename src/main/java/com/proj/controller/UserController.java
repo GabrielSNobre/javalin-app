@@ -21,12 +21,11 @@ public class UserController {
         this.repository = repository ;
     }
 
-    public ArrayList<HashMap<String,String>> getUserById(int id) throws SQLException{
-        ArrayList<HashMap<String,String>> userData = new ArrayList<HashMap<String,String>>();
-        HashMap<String,String> data = this.repository.fetchUserById(id);
-        userData.add(data);
-        System.out.println("Resultado: " + userData.toString());
-        return userData;
+    public UserModel getUserById(int id) throws SQLException{
+        UserModel user = new UserModel();
+        user = this.repository.fetchUserById(id);
+        System.out.println("Resultado: " + user.toString());
+        return user;
     }
 
     public ArrayList<UserModel> getAllUsers() throws SQLException{
