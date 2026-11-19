@@ -1,2 +1,45 @@
+
+# ====================================
+# Maven / Java
+# ====================================
+target/
+*.class
+*.log
+
+# ====================================
+# SQLite
+# ====================================
 src/main/database/*.db
-target/*
+src/main/database/*.db-*
+src/main/database/*.sqlite
+src/main/database/*.sqlite3
+
+# ====================================
+# Kate / JDTLS / Eclipse
+# ====================================
+.kateproject.local
+.project
+.classpath
+.settings/
+.metadata/
+
+# ====================================
+# IDEs
+# ====================================
+.idea/
+*.iml
+.vscode/
+
+# ====================================
+# Sistema operacional
+# ====================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ====================================
+# Arquivos temporários
+# ====================================
+*.tmp
+*.bak
+*~
