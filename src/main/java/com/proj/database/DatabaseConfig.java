@@ -11,14 +11,19 @@ public class DatabaseConfig {
     }
 
     public Connection getConn() throws SQLException{
-        Connection conn = DriverManager.getConnection(this.databaseURL);
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(this.databaseURL);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
         return conn;
     }
 
     public void initDB(){
         SQLRunner runner = new SQLRunner();
         try(var conn = getConn()){
-            runner.execSql(this.schemaPath);
+            runner.execSql(this.schemaPath, getConn());
             if(conn != null){
                 var meta = conn.getMetaData();
             }

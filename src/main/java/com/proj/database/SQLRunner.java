@@ -5,10 +5,8 @@ import java.io.FileReader;
 import java.sql.*;
 
 public class SQLRunner {
-    public void execSql(String schemaPath) throws Exception{
-        DatabaseConfig db = new DatabaseConfig();
+    public void execSql(String schemaPath, Connection conn) throws Exception{
         try(BufferedReader bf = new BufferedReader(new FileReader(schemaPath));
-            Connection conn = db.getConn();
             Statement stmt = conn.createStatement();
         ){
             String line;

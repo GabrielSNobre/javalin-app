@@ -11,10 +11,10 @@ import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 
 public class Main{
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         DatabaseConfig dbConf = new DatabaseConfig();
         UserRepository userRepository = new UserRepository(dbConf);
-        UserController userControler = new UserController(userRepository, dbConf);
+        UserController userControler = new UserController(userRepository);
         try{
             Connection conn = dbConf.getConn();
             dbConf.initDB();
