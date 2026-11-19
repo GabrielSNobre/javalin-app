@@ -34,4 +34,13 @@ public class UserController {
         return userData;
     }
 
+    public void insertReg(UserModel userModel) throws SQLException{
+        try{
+            this.repository.insertUser(userModel);
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        System.out.println("Registro Gerado");
+    }
+
 }

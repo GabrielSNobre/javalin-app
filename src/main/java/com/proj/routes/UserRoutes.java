@@ -25,7 +25,7 @@ public class UserRoutes {
         });
 
         configRoute.post("/users", ctx -> {
-            this.controller.insertUser();
+            this.controller.insertReg(ctx.bodyAsClass(ctx.));
         });
     }
 }
