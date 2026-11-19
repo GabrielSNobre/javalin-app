@@ -32,6 +32,7 @@ public class UserRepository {
             ResultSet results = stmt.executeQuery(sql);
             while(results.next()){
                 UserModel user = new UserModel();
+                user.setId(results.getInt("id"));
                 user.setNome(results.getString("nome"));
                 user.setEmail(results.getString("email"));
                 users.add(user);
@@ -44,15 +45,16 @@ public class UserRepository {
     }
 
     public UserModel fetchUserById(int id) throws SQLException{
-        PreparedStatement stmtQuery = null;
         String sql = "Select id, nome, email from tb_user where id = ?";
-        ResultSet results = null;
         UserModel user = new UserModel();
-        try{
-            stmtQuery = this.conn.prepareStatement(sql);
+        try(
+            Connection conn = this.dbConfig.getConn();
+            PreparedStatement stmtQuery = conn.prepareStatement(sql);
+        ){
             stmtQuery.setInt(1, id);
-            results = stmtQuery.executeQuery();
+            ResultSet results = stmtQuery.executeQuery();
             while(results.next()){
+                user.setId(results.getInt("id"));
                 user.setNome(results.getString("nome"));
                 user.setEmail(results.getString("email"));
             }
@@ -77,8 +79,9 @@ public class UserRepository {
         }
     }
 
-    public void updateUser(int id, UserModel user) throws SQLException{
+    public int updateUser(int id, UserModel user) throws SQLException{
         String sql = "update tb_user set nome = ?, email = ? where id = ?";
+        int resultados;
         try(
             Connection conn = this.dbConfig.getConn();
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -86,24 +89,19 @@ public class UserRepository {
             stmt.setString(1,user.getNome());
             stmt.setString(2,user.getEmail());
             stmt.setInt(3, id);
-            stmt.executeUpdate();
-            System.out.println("Registro Alterado");
-        }catch (SQLException e){
-            e.printStackTrace();
+            return resultados = stmt.executeUpdate();
         }
-    }
 
-    public void deleteUser(int id) throws SQLException{
+}
+
+    public int deleteUser(int id) throws SQLException{
         String sql = "delete from tb_user where id = ?";
         try(
             Connection conn = this.dbConfig.getConn();
             PreparedStatement stmt = conn.prepareStatement(sql);
         ){
             stmt.setInt(1,id);
-            stmt.executeUpdate();
-            System.out.println("Registro apagado");
-        } catch (SQLException e){
-            e.printStackTrace();
+            return stmt.executeUpdate();
         }
     }
 }

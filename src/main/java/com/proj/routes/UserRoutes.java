@@ -2,6 +2,9 @@ package com.proj.routes;
 
 import io.javalin.config.RoutesConfig;
 
+import java.util.Map;
+
+import com.proj.exceptions.UserNotFoundException;
 import com.proj.model.UserModel;
 import com.proj.controller.UserController;
 
@@ -44,5 +47,13 @@ public class UserRoutes {
             this.controller.deleteUser(Integer.parseInt(ctx.pathParam("id")));
             ctx.status(204);
         });
+
+        configRoute.exception(
+            UserNotFoundException.class,
+            (e, ctx) -> {
+                ctx.status(404)
+                .json(Map.of("error", e.getMessage()));
+            }
+        );
     }
 }

@@ -3,6 +3,7 @@ package com.proj.controller;
 import com.proj.model.UserModel;
 import com.proj.repository.UserRepository;
 import com.proj.database.DatabaseConfig;
+import com.proj.exceptions.UserNotFoundException;
 
 import io.javalin.config.JavalinConfig;
 
@@ -45,21 +46,16 @@ public class UserController {
     }
 
     public void updateReg(int id, UserModel user) throws SQLException {
-        try{
-            this.repository.updateUser(id,user);
-        } catch(SQLException e){
-            System.out.println("Erro ao atualizar o registro");
-            e.printStackTrace();
+        int linhasAfetadas = this.repository.updateUser(id,user);
+        if(linhasAfetadas == 0){
+            throw new UserNotFoundException(id);
         }
     }
 
     public void deleteUser(int id) throws SQLException{
-        try{
-            this.repository.deleteUser(id);
-
-        } catch(SQLException e){
-            System.out.println("Erro ao apagar o registro");
-            e.printStackTrace();
+        int linhasAfetadas = this.repository.deleteUser(id);
+        if(linhasAfetadas == 0){
+            throw new UserNotFoundException(id);
         }
     }
 }
