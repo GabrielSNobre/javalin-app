@@ -1,7 +1,8 @@
 create table if not exists tb_user(
     id integer primary key autoincrement,
     nome text not null,
-    email text not null
+    email text not null,
+    unique(email)
 );
 
 insert into tb_user(nome,email) values ('bruno', 'bruno@email.com') on conflict(email) do nothing;

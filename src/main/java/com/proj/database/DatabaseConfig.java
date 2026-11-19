@@ -20,18 +20,16 @@ public class DatabaseConfig {
         return conn;
     }
 
-    public void initDB(){
+    public void initDB() throws Exception {
         SQLRunner runner = new SQLRunner();
-        var conn = getConn();
-        try(conn){
+
+        try(Connection conn = getConn();){
             runner.execSql(this.schemaPath, conn);
             if(conn != null){
                 var meta = conn.getMetaData();
             }
         }catch(Exception e){
             e.printStackTrace();
-        }finally {
-            conn.close();
         }
     }
 }
