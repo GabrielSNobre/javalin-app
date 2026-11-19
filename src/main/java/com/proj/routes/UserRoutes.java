@@ -2,6 +2,7 @@ package com.proj.routes;
 
 import io.javalin.config.RoutesConfig;
 
+import com.proj.model.UserModel;
 import com.proj.controller.UserController;
 
 public class UserRoutes {
@@ -25,7 +26,23 @@ public class UserRoutes {
         });
 
         configRoute.post("/users", ctx -> {
-            this.controller.insertReg(ctx.bodyAsClass(ctx.));
+            UserModel user = ctx.bodyAsClass(UserModel.class);
+            this.controller.insertReg(user);
+            ctx.status(201);
+        });
+
+        configRoute.put("/users/{id}", ctx -> {
+            UserModel user = ctx.bodyAsClass(UserModel.class);
+            this.controller.updateReg(
+                Integer.parseInt(ctx.pathParam("id")),
+                user
+            );
+            ctx.status(200);
+        });
+
+        configRoute.delete("/users/{id}", ctx -> {
+            this.controller.deleteUser(Integer.parseInt(ctx.pathParam("id")));
+            ctx.status(204);
         });
     }
 }

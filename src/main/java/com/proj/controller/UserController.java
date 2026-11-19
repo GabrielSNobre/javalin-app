@@ -37,10 +37,29 @@ public class UserController {
     public void insertReg(UserModel userModel) throws SQLException{
         try{
             this.repository.insertUser(userModel);
+            System.out.println("Registro Gerado");
         } catch(SQLException e){
+        System.out.println("Erro ao criar o registro");
             e.printStackTrace();
         }
-        System.out.println("Registro Gerado");
     }
 
+    public void updateReg(int id, UserModel user) throws SQLException {
+        try{
+            this.repository.updateUser(id,user);
+        } catch(SQLException e){
+            System.out.println("Erro ao atualizar o registro");
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteUser(int id) throws SQLException{
+        try{
+            this.repository.deleteUser(id);
+
+        } catch(SQLException e){
+            System.out.println("Erro ao apagar o registro");
+            e.printStackTrace();
+        }
+    }
 }

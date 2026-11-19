@@ -65,14 +65,45 @@ public class UserRepository {
     public void insertUser(UserModel user) throws SQLException{
         String sql = "insert into tb_user(nome,email) values(?,?)";
         try(
-            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            Connection conn = this.dbConfig.getConn();
+            PreparedStatement stmt = conn.prepareStatement(sql);
         ){
             stmt.setString(1, user.getNome());
             stmt.setString(2, user.getEmail());
-            stmt.execute(sql);
+            stmt.executeUpdate();
             System.out.println("Registro Criado");
         } catch(SQLException e){
             System.out.printf("Erro ao processar query: '%s'\nStackTrace: %s",sql,e.toString());
+        }
+    }
+
+    public void updateUser(int id, UserModel user) throws SQLException{
+        String sql = "update tb_user set nome = ?, email = ? where id = ?";
+        try(
+            Connection conn = this.dbConfig.getConn();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+        ){
+            stmt.setString(1,user.getNome());
+            stmt.setString(2,user.getEmail());
+            stmt.setInt(3, id);
+            stmt.executeUpdate();
+            System.out.println("Registro Alterado");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteUser(int id) throws SQLException{
+        String sql = "delete from tb_user where id = ?";
+        try(
+            Connection conn = this.dbConfig.getConn();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+        ){
+            stmt.setInt(1,id);
+            stmt.executeUpdate();
+            System.out.println("Registro apagado");
+        } catch (SQLException e){
+            e.printStackTrace();
         }
     }
 }
