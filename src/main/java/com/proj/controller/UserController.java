@@ -24,16 +24,14 @@ public class UserController {
 
     public ArrayList<HashMap<String,String>> getUserById(int id) throws SQLException{
         ArrayList<HashMap<String,String>> userData = new ArrayList<HashMap<String,String>>();
+        HashMap<String,String> data = this.repository.fetchUserById(id);
+        userData.add(data);
+        System.out.println("Resultado: " + userData.toString());
+        return userData;
+    }
 
-        userData = this.repository.fetchAll();
-        // try(var rsUserData = this.repository.fetchAll();){
-        //     while(rsUserData.next()){
-        //         userData.put("nome", rsUserData.getString("nome"));
-        //         userData.put("email", rsUserData.getString("email"));
-        //     }
-        // } catch (SQLException e){
-        //     System.out.println("Erro durante a consulta: " + e.toString());
-        // }
+    public ArrayList<HashMap<String,String>> getAllUsers() throws SQLException{
+        ArrayList<HashMap<String,String>> userData = this.repository.fetchAll();
         System.out.println("Resultado: " + userData.toString());
         return userData;
     }

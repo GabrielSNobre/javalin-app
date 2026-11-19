@@ -43,19 +43,24 @@ public class UserRepository {
         return users;
     }
 
-    public ResultSet fetchUserById(int id) throws SQLException{
+    public HashMap<String,String> fetchUserById(int id) throws SQLException{
         PreparedStatement stmtQuery = null;
         String sql = "Select id, nome, email from tb_user where id = ?";
         ResultSet rsUserData = null;
+        HashMap<String,String> data = new HashMap<>();
         try{
             stmtQuery = this.conn.prepareStatement(sql);
             stmtQuery.setInt(1, id);
             rsUserData = stmtQuery.executeQuery();
+            while(rsUserData.next()){
+                data.put("nome",rsUserData.getString("nome"));
+                data.put("email",rsUserData.getString("email"));
+            }
         } catch(SQLException e){
             System.out.printf("Erro ao processar query: '%s'\nStackTrace: %s",sql,e.toString());
         }
             stmtQuery.close();
             conn.close();
-            return rsUserData;
+            return data;
     }
 }
